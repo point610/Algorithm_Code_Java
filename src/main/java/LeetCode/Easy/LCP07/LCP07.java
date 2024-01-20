@@ -59,6 +59,5 @@ class Solution {
 public class LCP07 {
     public static void main(String[] args) {
         Solution solution = new Solution();
-
     }
 }
