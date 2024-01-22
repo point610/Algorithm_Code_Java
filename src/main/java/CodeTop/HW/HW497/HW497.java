@@ -2,65 +2,48 @@ package CodeTop.HW.HW497;
 
 import java.util.Random;
 
-/**
- * @ClassName HW497
- * @Description TODO
- * @Author point
- * @Date 2023/12/31 20:53
- * @Version 1.0
- */
+
 class Solution {
+    Random random = new Random();
+    int[] sum;
+    int all;
     int[][] rects;
 
-    int[] sum;
-
-    int size;
-
-    Random random = new Random();
+    private int getArea(int[] aaa) {
+        return (aaa[2] - aaa[0] + 1) * (1 + aaa[3] - aaa[1]);
+    }
 
     public Solution(int[][] rects) {
         this.rects = rects;
-        size = rects.length;
-        sum = new int[size + 1];
-        for (int i = 1; i <= size; i++) {
-            sum[i] = sum[i - 1] + getArea(rects[i - 1]);
+        int size = rects.length;
+        sum = new int[size];
+        for (int i = 0; i < size; i++) {
+            sum[i] = getArea(rects[i]);
+            all += sum[i];
         }
-    }
-
-    private int getArea(int[] one) {
-        return (one[2] - one[0] + 1) * (one[3] - one[1] + 1);
     }
 
     public int[] pick() {
-
-        // 取得最大面积内的随机值
-        int mmm = random.nextInt(sum[size]) + 1;
-
-        int left = 0;
-        int right = size;
-
-        while (left < right) {
-            int mid = (left + right) / 2;
-            if (sum[mid] >= mmm) {
-                right = mid;
-            } else {
-                left = mid + 1;
+        int iiii = random.nextInt(all);
+        int index = 0;
+        for (int i = 0; i < sum.length; i++) {
+            if (iiii < sum[index]) {
+                break;
             }
+            iiii -= sum[i];
+            index++;
         }
 
-        int[] area = rects[right - 1];
-        int xm = area[2] - area[0] + 1;
-        int ym = area[3] - area[1] + 1;
+        int lx = rects[index][0];
+        int ly = rects[index][1];
+        int rx = rects[index][2];
+        int ry = rects[index][3];
 
-        return new int[]{random.nextInt(xm) + area[0], random.nextInt(ym) + area[1]};
+        return new int[]{lx + random.nextInt(rx - lx + 1), ly + random.nextInt(ry - ly + 1)};
 
     }
 }
 
-/**
- * Your Solution object will be instantiated and called as such:
- * Solution obj = new Solution(rects);
- * int[] param_1 = obj.pick();
- */
+
 public class HW497 {
 }
