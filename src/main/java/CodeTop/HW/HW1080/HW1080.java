@@ -51,6 +51,4 @@ class Solution {
 }
 
 public class HW1080 {
-
-
 }
