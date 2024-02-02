@@ -1,7 +1,6 @@
 package CodeTop.HW.HW1208;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 class Solution {
