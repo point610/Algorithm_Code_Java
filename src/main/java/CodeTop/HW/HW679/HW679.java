@@ -5,124 +5,60 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Solution {
-    private static List<Character> templistsign = new ArrayList<>();
+    private static final double TARGET = 24;
+    // double的比较大小不能直接使用==，要判断其小于一个较小的数值
+    private static final double EPISLON = 1e-6;
 
-    private static List<Integer> templistnumber = new ArrayList<>();
-
-    private static List<List<Character>> sign;
-
-    private static List<List<Integer>> number;
-
-    private static void DFSsign(List<Character> tempsign) {
-        if (tempsign.size() == 3) {
-            sign.add(new ArrayList<>(tempsign));
-            return;
-        }
-        for (int i = 0; i < 4; i++) {
-            tempsign.add(templistsign.get(i));
-            DFSsign(tempsign);
-            tempsign.remove(tempsign.size() - 1);
-        }
-
+    public boolean judgePoint24(int[] cards) {
+        return helper(new double[]{cards[0], cards[1], cards[2], cards[3]});
     }
 
-    private static void DFSnumber(int index) {
-        if (index == 3) {
-            number.add(new ArrayList<>(templistnumber));
-            return;
+    private boolean helper(double[] nums) {
+        // 只有一个数值的情况
+        if (nums.length == 1) {
+            return Math.abs(nums[0] - TARGET) < EPISLON;
         }
 
-        for (int i = index; i < 4; i++) {
-
-            int temp = templistnumber.get(i);
-            templistnumber.set(i, templistnumber.get(index));
-            templistnumber.set(index, temp);
-
-
-            DFSnumber(index + 1);
-
-            temp = templistnumber.get(i);
-            templistnumber.set(i, templistnumber.get(index));
-            templistnumber.set(index, temp);
-        }
-
-    }
-
-    private static int jisuan(int one, char cc, int two) {
-        switch (cc) {
-            case '+': {
-                return one + two;
-            }
-            case '-': {
-                return one - two;
-            }
-            case '*': {
-                return one * two;
-            }
-            case '/': {
-                if (two == 0) {
-                    return 0;
+        // 每次选择两个不同的数进行回溯
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                // 将选择出来的两个数的计算结果和原数组剩下的数加入 next 数组
+                double[] next = new double[nums.length - 1];
+                for (int k = 0, pos = 0; k < nums.length; k++) {
+                    // 加入next中不参与当前运算的数值
+                    if (k != i && k != j) {
+                        next[pos++] = nums[k];
+                    }
                 }
-                return one + two;
-            }
-        }
-        return 0;
-    }
-
-    private static boolean cpu(List<Character> ss, List<Integer> nn) {
-        int one = jisuan(nn.get(0), ss.get(0), nn.get(1));
-        one = jisuan(one, ss.get(1), nn.get(2));
-        one = jisuan(one, ss.get(2), nn.get(3));
-
-        int ttwo = jisuan(nn.get(0), ss.get(0), nn.get(1));
-        int tttwo = jisuan(nn.get(2), ss.get(2), nn.get(3));
-        int two = jisuan(ttwo, ss.get(1), tttwo);
-
-        int three = jisuan(nn.get(0), ss.get(0), jisuan(nn.get(1), ss.get(1),
-                jisuan(nn.get(2), ss.get(2), nn.get(3))));
-        int four = jisuan(nn.get(0), ss.get(0), jisuan(jisuan(nn.get(1), ss.get(1),
-                nn.get(2)), ss.get(2), nn.get(3)));
-        int five = jisuan(nn.get(0), ss.get(0), jisuan(nn.get(1), ss.get(1),
-                nn.get(2)));
-        five = jisuan(five, ss.get(2), nn.get(3));
-
-        return one == 24 || two == 24 || three == 24 || four
-                == 24 || five == 24;
-
-    }
-
-    private static boolean get(int one, int two, int three, int four) {
-        DFSsign(new ArrayList<>());
-        templistnumber = new ArrayList<>();
-        templistnumber.add(one);
-        templistnumber.add(two);
-        templistnumber.add(three);
-        templistnumber.add(four);
-
-        DFSnumber(0);
-        for (int i = 0; i < number.size(); i++) {
-            for (int j = 0; j < sign.size(); j++) {
-                if (cpu(sign.get(j), number.get(i))) {
-                    return true;
+                // 将参与运算的数值计算的结果加入next剩下的位置中，进行递归
+                for (double num : calculate(nums[i], nums[j])) {
+                    next[next.length - 1] = num;
+                    // 递归调用helper
+                    if (helper(next)) {
+                        return true;
+                    }
                 }
-
             }
         }
         return false;
-
     }
 
-    public boolean judgePoint24(int[] cards) {
-
-        templistsign.add('+');
-        templistsign.add('-');
-        templistsign.add('*');
-        templistsign.add('/');
-
-        sign = new ArrayList<>();
-        number = new ArrayList<>();
-
-        return get(cards[0], cards[1], cards[2], cards[3]);
+    // 计算的各种情况
+    private List<Double> calculate(double a, double b) {
+        List<Double> list = new ArrayList<>();
+        list.add(a + b);
+        list.add(a - b);
+        list.add(b - a);
+        list.add(a * b);
+        // 不在double中过小的数值
+        if (!(Math.abs(b) < EPISLON)) {
+            list.add(a / b);
+        }
+        // 不在double中过小的数值
+        if (!(Math.abs(a) < EPISLON)) {
+            list.add(b / a);
+        }
+        return list;
     }
 }
 
