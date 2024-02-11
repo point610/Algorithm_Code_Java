@@ -2,110 +2,50 @@ package CodeTop.HW.HW834;
 
 import java.util.*;
 
-//class Solution {
-//    public int[] sumOfDistancesInTree(int n, int[][] edges) {
-//        if (edges == null || edges.length == 0 || n == 1) {
-//            return new int[]{0};
-//        }
-//        boolean[][] lllll = new boolean[n][n];
-//
-//        for (int[] iii : edges) {
-//            lllll[iii[0]][iii[1]] = true;
-//            lllll[iii[1]][iii[0]] = true;
-//        }
-//
-//        int[] res = new int[n];
-//
-//        boolean[] visit = new boolean[n];
-//        for (int i = 0; i < n; i++) {
-//            int startindex = i;
-//            visit = new boolean[n];
-//            visit[startindex] = true;
-//
-//            int level = 0;
-//            Queue<Integer> queue = new LinkedList<>();
-//            queue.add(startindex);
-//            while (!queue.isEmpty()) {
-//                level++;
-//                Queue<Integer> qqq = new LinkedList<>();
-//                while (!queue.isEmpty()) {
-//                    int tempindex = queue.poll();
-//                    for (int j = 0; j < n; j++) {
-//                        if (lllll[tempindex][j] && !visit[j]) {
-//                            visit[j] = true;
-//                            qqq.add(j);
-//                        }
-//                    }
-//                }
-//
-//                // 计算距离
-//                res[startindex] += qqq.size() * level;
-//                queue = qqq;
-//            }
-//
-//        }
-//
-//        return res;
-//    }
-//}
-
 class Solution {
-    int N = 30010, M = 60010, idx = 0, n;
-    int[] he = new int[N], e = new int[M], ne = new int[M];
-    int[] f = new int[N], c = new int[N], g = new int[N];
+    private List<Integer>[] g;
+    private int[] ans, size;
 
-    void add(int a, int b) {
-        e[idx] = b;
-        ne[idx] = he[a];
-        he[a] = idx++;
-    }
-
-    public int[] sumOfDistancesInTree(int _n, int[][] es) {
-        n = _n;
-        Arrays.fill(he, -1);
-
-        for (int[] e : es) {
-            int a = e[0], b = e[1];
-            add(a, b);
-            add(b, a);
+    public int[] sumOfDistancesInTree(int n, int[][] edges) {
+        g = new ArrayList[n]; // g[x] 表示 x 的所有邻居
+        Arrays.setAll(g, e -> new ArrayList<>());
+        for (int[] e : edges) {
+            int x = e[0], y = e[1];
+            g[x].add(y);
+            g[y].add(x);
         }
 
-        dfs1(0, -1);
-        dfs2(0, -1);
+        ans = new int[n];
+        size = new int[n];
 
-        int[] ans = new int[n];
-        for (int i = 0; i < n; i++) {
-            ans[i] = f[i] + g[i];
-        }
+        dfs(0, -1, 0); // 0 没有父节点
+        reroot(0, -1); // 0 没有父节点
+
         return ans;
     }
 
-    int[] dfs1(int u, int fa) {
-        int tot = 0, cnt = 0;
-        for (int i = he[u]; i != -1; i = ne[i]) {
-            int j = e[i];
-            if (j == fa) {
-                continue;
-            }
+    private void dfs(int x, int fa, int depth) {
+        ans[0] += depth; // depth 为 0 到 x 的距离
+        size[x] = 1;
 
-            int[] next = dfs1(j, u);
-            tot += next[0] + next[1] + 1;
-            cnt += next[1] + 1;
+        for (int y : g[x]) { // 遍历 x 的邻居 y
+            // 防止回去
+            if (y != fa) { // 避免访问父节点
+                dfs(y, x, depth + 1); // x 是 y 的父节点
+                // 在递归遍历时，累加子节点的数量
+                size[x] += size[y]; // 累加 x 的儿子 y 的子树大小
+            }
         }
-        f[u] = tot;
-        c[u] = cnt;
-        return new int[]{tot, cnt};
     }
 
-    void dfs2(int u, int fa) {
-        for (int i = he[u]; i != -1; i = ne[i]) {
-            int j = e[i];
-            if (j == fa) {
-                continue;
+    private void reroot(int x, int fa) {
+        for (int y : g[x]) { // 遍历 x 的邻居 y
+            // 防止回去
+            if (y != fa) { // 避免访问父节点
+                // g.length 为总的数量
+                ans[y] = ans[x] + g.length - 2 * size[y];
+                reroot(y, x); // x 是 y 的父节点
             }
-            g[j] += g[u] + n - 1 - c[u]; // 往上再往上
-            g[j] += f[u] - f[j] - c[j] + c[u] - 1 - c[j];  // 往上再往下
-            dfs2(j, u);
         }
     }
 }
@@ -114,8 +54,8 @@ public class HW834 {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
+        System.out.println(Arrays.toString(solution.sumOfDistancesInTree(2, new int[][]{{1, 0}})));
         System.out.println(Arrays.toString(solution.sumOfDistancesInTree(6, new int[][]{{0, 1}, {0, 2}, {2, 3}, {2, 4}, {2, 5}})));
         System.out.println(Arrays.toString(solution.sumOfDistancesInTree(1, new int[][]{})));
-        System.out.println(Arrays.toString(solution.sumOfDistancesInTree(2, new int[][]{{1, 0}})));
     }
 }
