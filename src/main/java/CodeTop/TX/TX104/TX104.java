@@ -1,4 +1,4 @@
-package CodeTop.TX104;
+package CodeTop.TX.TX104;
 
 class TreeNode {
     int val;
