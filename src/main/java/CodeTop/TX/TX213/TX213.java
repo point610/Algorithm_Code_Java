@@ -37,7 +37,6 @@ class Solution {
             int current = nums[i - 1];
             two[i] = Math.max(two[i - 2] + current, two[i - 1]);
         }
-
         return Math.max(one[size], two[size]);
     }
 }
