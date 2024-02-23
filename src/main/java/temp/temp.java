@@ -3,14 +3,13 @@ package temp;
 import javax.jws.soap.SOAPBinding;
 
 class father {
-    private void print() {
-        System.out.println("private");
+    static int temp = 0;
+
+    static void print() {
+        System.out.println("static");
     }
 
-    public static void main(String[] args) {
-        father son = new son();
-        son.print();
-    }
+
 }
 
 class son extends father {
@@ -19,7 +18,7 @@ class son extends father {
 
 public class temp {
     public static void main(String[] args) {
-        father son = new son();
-        //son.print();
+        father s = new son();
+
     }
 }
