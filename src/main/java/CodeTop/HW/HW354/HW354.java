@@ -31,15 +31,15 @@ class Solution {
         return lengthOfLIS(www);
     }
 
-    //public int lengthOfLIS(int[] aaa) {
-    //    int size = aaa.length;
+    //public int lengthOfLIS(int[] temp) {
+    //    int size = temp.length;
     //    int[] dp = new int[size];
     //    // 单个数字也为长度为1 的子序列
     //    Arrays.fill(dp, 1);
     //    int max = 1;
     //    for (int i = 1; i < size; i++) {
     //        for (int j = i - 1; j >= 0; j--) {
-    //            if (aaa[j] < aaa[i]) {
+    //            if (temp[j] < temp[i]) {
     //                dp[i] = Math.max(dp[i], dp[j] + 1);
     //                max = Math.max(max, dp[i]);
     //            }
