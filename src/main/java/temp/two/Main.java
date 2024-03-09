@@ -1,51 +1,30 @@
 package temp.two;
 
-import java.util.*;
+
+import java.util.Scanner;
 
 // 注意类名必须为 Main, 不要有任何 package xxx 信息
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int size = scanner.nextInt();
-        scanner.nextLine();
-        String one = scanner.nextLine();
-        String two = scanner.nextLine();
-        Map<Character, Set<Character>> map = new HashMap<>();
+        int times = scanner.nextInt();
+        long zeronumber = 0;
+        long sum = 0;
         for (int i = 0; i < size; i++) {
-            char oo = one.charAt(i);
-            char tt = two.charAt(i);
-            if (!map.containsKey(oo)) {
-                map.put(oo, new HashSet<>());
-            }
-            if (!map.containsKey(tt)) {
-                map.put(tt, new HashSet<>());
-            }
-        }
-        int count = 0;
-        int change = 0;
-        Set<Character> set = new HashSet<>();
-        boolean canupper = false;
-        for (int i = 0; i < size; i++) {
-            char oo = one.charAt(i);
-            char tt = two.charAt(i);
-            if (oo == tt) {
-                count++;
+            long temp = scanner.nextLong();
+            if (temp == 0) {
+                zeronumber++;
             } else {
-                if (set.contains(oo)) {
-                    canupper = true;
-                } else {
-                    set.add(tt);
-                }
-                if (map.get(tt).contains(oo)) {
-                    change = 2;
-                }
-                map.get(oo).add(tt);
+                sum += temp;
             }
         }
-        if (change == 0 && canupper) {
-            System.out.println(count + change + 1);
-        } else {
-            System.out.println(count + change);
+        for (int i = 0; i < times; i++) {
+            long left = scanner.nextLong();
+            long right = scanner.nextLong();
+            System.out.printf("%lld", sum + zeronumber * left);
+            System.out.printf("%s", " ");
+            System.out.printf("%lld\n", sum + zeronumber * right);
         }
     }
 }
