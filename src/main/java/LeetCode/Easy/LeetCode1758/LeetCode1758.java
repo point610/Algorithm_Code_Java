@@ -14,7 +14,7 @@ class Solution {
         int sizez = s.length();
         for (int i = 0; i < sizez; i++) {
             if (i % 2 == 0) {
-                // ou is one
+                // ou is xc1
                 if (s.charAt(i) != '1') {
                     one++;
                 }
@@ -29,7 +29,7 @@ class Solution {
         int two = 0;
         for (int i = 0; i < sizez; i++) {
             if (i % 2 == 0) {
-                // ou is one
+                // ou is xc1
                 if (s.charAt(i) == '1') {
                     two++;
                 }

@@ -16,9 +16,9 @@ class Solution {
     }
 
     private boolean is(String one, String two) {
-        //if (one.length() < two.length()) {
-        //    String temp = one;
-        //    one = two;
+        //if (xc1.length() < two.length()) {
+        //    String temp = xc1;
+        //    xc1 = two;
         //    two = temp;
         //}
         if (one.length() > two.length()) {

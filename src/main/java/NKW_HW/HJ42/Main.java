@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 // 注意类名必须为 Main, 不要有任何 package xxx 信息
 public class Main {
-    static String[] NUMS = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"};
+    static String[] NUMS = {"zero", "xc1", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"};
 
     static String[] NUMSSHI = {"zero", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
 

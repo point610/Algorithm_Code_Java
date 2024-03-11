@@ -16,7 +16,7 @@ class Solution {
         f[0][0][0] = grid[0][0];
         // 使用for循环遍历所有的步骤
         for (int k = 1; k < n * 2 - 1; ++k) {
-            // 节点 one 走的x轴
+            // 节点 xc1 走的x轴
             for (int x1 = Math.max(k - n + 1, 0); x1 <= Math.min(k, n - 1); ++x1) {
                 // 校验不为障碍
                 int y1 = k - x1;
@@ -41,7 +41,7 @@ class Solution {
                     if (x1 > 0 && x2 > 0) {
                         res = Math.max(res, f[k - 1][x1 - 1][x2 - 1]); // 都往下
                     }
-                    // one 的樱桃
+                    // xc1 的樱桃
                     res += grid[x1][y1];
                     // two 的樱桃
                     if (x2 != x1) { // 避免重复摘同一个樱桃

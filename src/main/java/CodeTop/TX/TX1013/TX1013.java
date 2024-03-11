@@ -12,7 +12,7 @@ class Solution {
         }
 
         int avg = sum / 3;
-        // one
+        // xc1
         int temp = 0;
         int leftindex = 0;
         while (leftindex < size) {

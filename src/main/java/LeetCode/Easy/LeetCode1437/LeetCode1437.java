@@ -12,7 +12,7 @@ class Solution {
 
         int size = nums.length;
         int lastIndex = 0;
-        // first one
+        // first xc1
         for (int i = 0; i < size; i++) {
             if (nums[i] == 1) {
                 lastIndex = i;
