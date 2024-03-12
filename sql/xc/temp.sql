@@ -64,7 +64,46 @@ order by substr(products.category, 9), sum(orders.quantity)
         desc;
 
 
-
+WITH
+    sales_data AS (
+        SELECT
+            p.product_id,
+            p.name,
+            p.category,
+            SUM(o.quantity) AS total_quantity
+        FROM
+            products p
+                JOIN orders o ON p.product_id = o.product_id
+        GROUP BY
+            p.product_id,
+            p.name,
+            p.category
+    ),
+    category_ranks AS (
+        SELECT
+            product_id,
+            name,
+            category,
+            total_quantity,
+            DENSE_RANK() OVER (
+                PARTITION BY
+                    category
+                ORDER BY
+                    total_quantity DESC,
+                    product_id ASC
+                ) AS rank_in_category
+        FROM
+            sales_data
+    )
+SELECT
+    name product_name,
+    total_quantity total_sales,
+    rank_in_category category_rank
+FROM
+    category_ranks
+ORDER BY
+    category ASC,
+    total_quantity DESC;
 
 
 
