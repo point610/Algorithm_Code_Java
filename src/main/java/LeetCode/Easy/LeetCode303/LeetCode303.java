@@ -1,34 +1,25 @@
 package LeetCode.Easy.LeetCode303;
 
-/**
- * @ClassName LeetCode303
- * @Description TODO
- * @Author point
- * @Date 2023/7/13 23:24
- * @Version 1.0
- */
+import com.oracle.xmlns.internal.webservices.jaxws_databinding.SoapBindingParameterStyle;
 
 class NumArray {
-    int[] numArrays;
+    private int[] sum;
 
     public NumArray(int[] nums) {
-        numArrays = nums.clone();
+        this.sum = new int[nums.length + 1];
+        for (int i = 0; i < nums.length; i++) {
+            sum[i + 1] = nums[i] + sum[i];
+        }
     }
 
     public int sumRange(int left, int right) {
-        int res = 0;
-        for (int i = left; i <= right; i++) {
-            res += numArrays[i];
-        }
-        return res;
+        return sum[right + 1] - sum[left];
     }
 }
 
-/**
- * Your NumArray object will be instantiated and called as such:
- * NumArray obj = new NumArray(nums);
- * int param_1 = obj.sumRange(left,right);
- */
 public class LeetCode303 {
-
+    public static void main(String[] args) {
+        NumArray numArray = new NumArray(new int[]{-2, 0, 3, -5, 2, -1});
+        System.out.println(numArray.sumRange(0, 2));
+    }
 }

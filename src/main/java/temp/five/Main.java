@@ -4,74 +4,132 @@ import java.util.*;
 
 // 注意类名必须为 Main, 不要有任何 package xxx 信息
 public class Main {
+    static class Node {
+        int type;
+        int one;
+        int two;
+
+        public Node(int type, int one, int two) {
+            this.type = type;
+            this.one = one;
+            this.two = two;
+        }
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         // 注意 hasNext 和 hasNextLine 的区别
         while (scanner.hasNextInt()) { // 注意 while 处理多个 case
-            int person = scanner.nextInt();
-            int edge = scanner.nextInt();
-            int times = scanner.nextInt();
+            //第一行输入三个正整数n,m,q，代表总人数，初始的朋友关系数量，发生的事件数量。
+            int n = scanner.nextInt();
+            int m = scanner.nextInt();
+            int q = scanner.nextInt();
 
-            Map<Integer, Set<Integer>> list = new HashMap<>();
-            for (int i = 0; i < edge; i++) {
-                int one = scanner.nextInt() - 1;
-                int two = scanner.nextInt() - 1;
-                if (!list.containsKey(one)) {
-                    list.put(one, new HashSet<>());
-                }
-                if (!list.containsKey(two)) {
-                    list.put(two, new HashSet<>());
-                }
-                list.get(one).add(two);
-                list.get(two).add(one);
+            UnionFind unionFind = new UnionFind(n + 1);
+            List<Node> connect = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                int one = scanner.nextInt();
+                int two = scanner.nextInt();
+                connect.add(new Node(1, one, two));
             }
 
-            for (int i = 0; i < times; i++) {
+            Set<String> set = new HashSet<>();
+            List<Node> list = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
                 int type = scanner.nextInt();
-                int one = scanner.nextInt() - 1;
-                int two = scanner.nextInt() - 1;
+                int one = scanner.nextInt();
+                int two = scanner.nextInt();
+                list.add(new Node(type, one, two));
                 if (type == 1) {
-                    if (!list.containsKey(one) || !list.containsKey(two)) {
-                        continue;
-                    }
-                    list.get(one).remove(two);
-                    list.get(two).remove(one);
-                } else if (type == 2) {
-                    if (get(list, person, one, two)) {
-                        System.out.println("Yes");
+                    set.add(one + "-" + two);
+                    set.add(two + "-" + one);
+                }
+            }
+
+            for (Node node : connect) {
+                if (!set.contains(node.one + "-" + node.two) && !set.contains(node.two + "-" + node.one)) {
+                    unionFind.union(node.one, node.two);
+                }
+            }
+
+            Collections.reverse(list);
+
+            List<String> ans = new ArrayList<>();
+            for (Node node : list) {
+                if (node.type == 1) {
+                    // 忘记
+                    unionFind.union(node.one, node.two);
+                } else {
+                    if (unionFind.together(node.one, node.two)) {
+                        ans.add("Yes");
                     } else {
-                        System.out.println("No");
+                        ans.add("No");
                     }
                 }
+            }
+
+            Collections.reverse(ans);
+            for (String an : ans) {
+                System.out.println(an);
             }
         }
     }
 
-    private static boolean get(Map<Integer, Set<Integer>> list, int size, int one, int two) {
-        boolean[] visit = new boolean[size];
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(one);
-        visit[one] = true;
-        while (!queue.isEmpty()) {
-            Queue<Integer> qqq = new LinkedList<>();
-            while (!queue.isEmpty()) {
-                int temp = queue.poll();
-                if (!list.containsKey(temp)) {
-                    continue;
-                }
-                Set<Integer> set = list.get(temp);
-                for (Integer integer : set) {
-                    if (!visit[integer]) {
-                        if (integer == two) {
-                            return true;
-                        }
-                        visit[integer] = true;
-                        qqq.add(integer);
-                    }
-                }
-            }
-            queue = qqq;
+    static class UnionFind {
+        int[] father;
+        int[] rank;
+        int count;
+
+        boolean together(int one, int two) {
+            return find(one) == find(two);
         }
-        return false;
+
+        public UnionFind(int size) {
+            count = size;
+            father = new int[size];
+            rank = new int[size];
+            for (int i = 0; i < size; i++) {
+                father[i] = i;
+                rank[i] = i;
+            }
+        }
+
+        int find(int one) {
+            if (one == father[one]) {
+                return one;
+            }
+            father[one] = find(father[one]);
+            return father[one];
+        }
+
+        void union(int one, int two) {
+            if (one == two) {
+                return;
+            }
+            int oo = find(one);
+            int tt = find(two);
+            if (oo == tt) {
+                return;
+            }
+            if (rank[oo] > rank[tt]) {
+                father[tt] = oo;
+            } else if (rank[oo] < rank[tt]) {
+                father[oo] = tt;
+            } else {
+                father[tt] = oo;
+                rank[oo]++;
+            }
+            count--;
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+

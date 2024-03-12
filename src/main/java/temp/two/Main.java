@@ -22,9 +22,7 @@ public class Main {
         for (int i = 0; i < times; i++) {
             long left = scanner.nextLong();
             long right = scanner.nextLong();
-            System.out.printf("%lld", sum + zeronumber * left);
-            System.out.printf("%s", " ");
-            System.out.printf("%lld\n", sum + zeronumber * right);
+            System.out.println((sum + zeronumber * left) + " " + (sum + zeronumber * right));
         }
     }
 }
