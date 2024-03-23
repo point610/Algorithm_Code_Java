@@ -60,6 +60,7 @@ public class Main {
         }
     }
 
+
     private static int get(List<Node> nodes, int index) {
         int sum = index;
         for (int i = index + 1; i < nodes.size(); i++) {
