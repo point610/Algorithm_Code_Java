@@ -1,4 +1,4 @@
-package temp;
+package NKW_HW.two.HJ11;
 
 import java.util.Scanner;
 
@@ -13,9 +13,35 @@ public class Main {
     }
 
     public static void solution(Scanner scanner) {
-
+        String ss = scanner.nextLine();
+        System.out.println(new StringBuilder(ss).reverse());
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

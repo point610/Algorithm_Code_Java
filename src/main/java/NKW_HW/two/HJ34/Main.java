@@ -1,5 +1,6 @@
-package temp;
+package NKW_HW.two.HJ34;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 // 注意类名必须为 Main, 不要有任何 package xxx 信息
@@ -13,7 +14,9 @@ public class Main {
     }
 
     public static void solution(Scanner scanner) {
-
+        char[] cc = scanner.nextLine().toCharArray();
+        Arrays.sort(cc);
+        System.out.println(cc);
     }
 }
 

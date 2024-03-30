@@ -1,6 +1,8 @@
-package temp;
+package NKW_HW.two.HJ10;
 
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 // 注意类名必须为 Main, 不要有任何 package xxx 信息
 public class Main {
@@ -13,9 +15,39 @@ public class Main {
     }
 
     public static void solution(Scanner scanner) {
-
+        String ss = scanner.nextLine();
+        Set<Character> set = new HashSet<>();
+        for (char c : ss.toCharArray()) {
+            set.add(c);
+        }
+        System.out.println(set.size());
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

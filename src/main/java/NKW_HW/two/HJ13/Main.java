@@ -1,4 +1,4 @@
-package temp;
+package NKW_HW.two.HJ13;
 
 import java.util.Scanner;
 
@@ -13,7 +13,12 @@ public class Main {
     }
 
     public static void solution(Scanner scanner) {
-
+        String[] split = scanner.nextLine().split(" ");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = split.length - 1; i >= 0; i--) {
+            stringBuilder.append(split[i] + " ");
+        }
+        System.out.println(stringBuilder.toString().trim());
     }
 }
 

@@ -1,4 +1,4 @@
-package temp;
+package NKW_HW.two.HJ15;
 
 import java.util.Scanner;
 
@@ -13,7 +13,7 @@ public class Main {
     }
 
     public static void solution(Scanner scanner) {
-
+        System.out.println(Integer.bitCount(scanner.nextInt()));
     }
 }
 
