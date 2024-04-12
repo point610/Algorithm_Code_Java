@@ -1,4 +1,4 @@
-package LeetCode.LeetCode433;
+package LeetCode.Middle.LeetCode433;
 
 import java.util.*;
 

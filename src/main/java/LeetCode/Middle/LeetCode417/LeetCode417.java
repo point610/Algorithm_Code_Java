@@ -1,6 +1,5 @@
-package LeetCode.LeetCode417;
+package LeetCode.Middle.LeetCode417;
 
-import java.awt.image.CropImageFilter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

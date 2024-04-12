@@ -1,4 +1,4 @@
-package LeetCode.LeetCode427;
+package LeetCode.Middle.LeetCode427;
 
 class Node {
     public boolean val;
